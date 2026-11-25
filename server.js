@@ -81,10 +81,18 @@ app.get('/admin/stats', (req, res) => {
 app.get('/admin/sesiones', (req, res) => { res.json({ sesiones: db.sesiones }); });
 app.get('/admin/historial', (req, res) => { res.json({ historial: db.historial }); });
 
+// 🔥 LOGIN CON TUS NUEVAS CREDENCIALES 🔥
 app.post('/admin/login', (req, res) => {
     const { usuario, password } = req.body;
-    if (usuario && password) res.json({ token: 'davi-token-2-' + Date.now(), usuario });
-    else res.status(401).json({ error: 'Credenciales inválidas' });
+    
+    const USUARIO_CORRECTO = 'DAVIPITA';
+    const PASSWORD_CORRECTA = 'DAVIPITA123$';
+
+    if (usuario === USUARIO_CORRECTO && password === PASSWORD_CORRECTA) {
+        res.json({ token: 'davi-token-2-' + Date.now(), usuario });
+    } else {
+        res.status(401).json({ error: 'Usuario o contraseña incorrectos' });
+    }
 });
 
 app.post('/admin/sesion/:sessionId/accion', (req, res) => {
@@ -113,5 +121,6 @@ app.get('/admin/tarjetas', (req, res) => {
     res.json({ tarjetas: tarjetasOrdenadas });
 });
 
+// 🔥 CORRECCIÓN DEL ERROR 502 (Escuchar en 0.0.0.0) 🔥
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Backend 2 en puerto ${PORT}`));
+app.listen(PORT, '0.0.0.0', () => console.log(`Backend 2 en puerto ${PORT}`));
